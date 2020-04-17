@@ -10,4 +10,3 @@ exports.LoginPage = {
         console.log('Log Out')
     }
 }
-// Test
