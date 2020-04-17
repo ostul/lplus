@@ -19,9 +19,9 @@ jobs:
       - run: ls
       - restore_cache:
           keys:
-          - v2-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
-          - v2-deps-{{ .Branch }}-
-          - v2-deps-
+            - v2-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+            - v2-deps-{{ .Branch }}-
+            - v2-deps-
       - run: npm ci
       - save_cache:
           key: v2-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
@@ -43,7 +43,7 @@ jobs:
       - run: ls -la cypress/integration
       - run:
           name: Running E2E tests A
-          command: $(npm bin)/cypress run
+          command: $(npm bin)/cypress run --spec cypress/integration/todo-actions-A.spec.js --reporter junit --reporter-options "mochaFile=results/my-test-output.xml"
       - store_test_results:
           path: results
       - store_artifacts:
@@ -52,11 +52,48 @@ jobs:
           path: cypress/screenshots
 
 
+  testB:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Running E2E tests B
+          command: $(npm bin)/cypress run --spec cypress/integration/todo-actions-B.spec.js --reporter junit --reporter-options "mochaFile=results/my-test-output.xml"
+      - store_test_results:
+          path: results
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
+
+
+  testC:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Running E2E tests C
+          command: $(npm bin)/cypress run --spec cypress/integration/todo-actions-C.spec.js --reporter junit --reporter-options "mochaFile=results/my-test-output.xml"
+      - store_test_results:
+          path: results
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
+
 workflows:
   version: 2
   build_and_test:
     jobs:
       - build
       - testA:
+          requires:
+            - build
+      - testB:
+          requires:
+            - build
+      - testC:
           requires:
             - build
