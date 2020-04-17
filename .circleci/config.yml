@@ -70,13 +70,13 @@ jobs:
 
   testC:
     <<: *defaults
-    parallelism: 4
+    parallelism: 3
     steps:
       - attach_workspace:
           at: ~/
       - run:
           name: Running E2E tests C
-          command: $(npm bin)/cypress run --spec cypress/integration/todo-actions-C.spec.js --parallel --reporter junit --reporter-options "mochaFile=results/my-test-output.xml"
+          command: $(npm bin)/cypress run --parallel --reporter junit --reporter-options "mochaFile=results/my-test-output.xml"
       - store_test_results:
           path: results
       - store_artifacts:
