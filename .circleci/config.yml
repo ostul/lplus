@@ -76,7 +76,7 @@ jobs:
           at: ~/
       - run:
           name: Running E2E tests C
-          command: $(npm bin)/cypress run --parallel --reporter junit --reporter-options "mochaFile=results/my-test-output.xml"
+          command: $(npm bin)/cypress run --record --parallel --reporter junit --reporter-options "mochaFile=results/my-test-output.xml"
       - store_test_results:
           path: results
       - store_artifacts:
