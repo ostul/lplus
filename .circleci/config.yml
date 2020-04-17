@@ -70,6 +70,7 @@ jobs:
 
   testC:
     <<: *defaults
+    parallelism: 4
     steps:
       - attach_workspace:
           at: ~/
@@ -82,21 +83,6 @@ jobs:
           path: cypress/videos
       - store_artifacts:
           path: cypress/screenshots
-
-  4x-electron:
-    # use Cypress built Docker image with Node 10 and npm 6
-    docker:
-      - image: cypress/base:10
-    # tells CircleCI to execute this job on 4 machines simultaneously
-    parallelism: 4
-    steps:
-      - checkout
-      # note: omitting caching for brevity
-      # quickly install NPM dependencies
-      - npm ci
-      # load balance all tests across 4 CI machines
-      - $(npm bin)/cypress run --parallel
-
 
 workflows:
   version: 2
@@ -112,6 +98,3 @@ workflows:
       - testC:
           requires:
             - build
-      - 4x-electron:
-          requires:
-            - biuld
