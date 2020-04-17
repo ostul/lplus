@@ -10,3 +10,8 @@ exports.LoginPage = {
         console.log('Log Out')
     }
 }
+
+exports.models = {
+    patientModel: {},
+    addressModel: {}
+}
