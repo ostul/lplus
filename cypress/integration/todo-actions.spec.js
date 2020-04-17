@@ -1,7 +1,8 @@
 let app = require('../../app')
 
 let toDoPage = new app.TodoPage()
-
+app.models.patientModel
+app.HomePage
 
 describe('todo actions', () => {
     beforeEach(() => {
